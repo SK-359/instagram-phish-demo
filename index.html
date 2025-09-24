@@ -1,81 +1,121 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Instagram</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#fafafa; --card:#ffffff; --muted:#8e8e8e; --accent:#3897f0;
+    --bg:#fafafa; --card:#fff; --muted:#8f8f8f; --accent:#3897f0; --fb:#1877f2;
+    --shadow: 0 6px 20px rgba(0,0,0,0.08);
   }
   *{box-sizing:border-box}
   body{
     margin:0; font-family:Inter,system-ui,Segoe UI,Roboto,"Helvetica Neue",Arial;
-    background:var(--bg); display:flex; align-items:center; justify-content:center; min-height:100vh;
+    background:linear-gradient(180deg,#fafafa 0%, #fff 100%);
+    min-height:100vh; display:flex; align-items:center; justify-content:center; padding:24px;
   }
 
-  .wrap{display:flex; gap:32px; align-items:flex-start; padding:20px;}
+  .stage{display:flex; gap:28px; align-items:flex-start; flex-wrap:wrap; justify-content:center; width:100%; max-width:980px;}
+
   .card{
-    width:350px; background:var(--card); border:1px solid #dbdbdb; padding:28px; text-align:center;
+    width:360px; background:var(--card); border:1px solid #dbdbdb; padding:28px; text-align:center;
+    border-radius:8px; box-shadow:var(--shadow);
   }
 
-  .logo{font-family: 'Billabong', 'Inter', sans-serif; font-size:48px; margin-bottom:14px;}
-  /* fallback: if Billabong font not available, use script-ish look using letter-spacing */
-  .logo{letter-spacing:2px; font-weight:600; color:#111}
-
-  form{display:flex; flex-direction:column; gap:8px; margin-top:6px;}
-  input{
-    height:42px; padding:10px; border-radius:3px; border:1px solid #dbdbdb; font-size:14px;
+  .logo{
+    font-family: 'Billabong', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif; font-size:44px; color:#111;
+    margin-bottom:8px; letter-spacing:1px;
   }
+
+  /* slight branding bar like Instagram header feel */
+  .branding {
+    display:flex; justify-content:center; align-items:center; gap:8px; margin-bottom:10px;
+  }
+  .caption { color:var(--muted); font-size:13px; margin-bottom:6px; }
+
+  form{display:flex; flex-direction:column; gap:10px; margin-top:6px;}
+  .field{position:relative;}
+  input[type="text"], input[type="password"]{
+    height:44px; padding:10px 40px 10px 12px; border-radius:6px; border:1px solid #dbdbdb; font-size:14px; width:100%;
+    background:#fff;
+  }
+  .icon-right { position:absolute; right:10px; top:8px; display:flex; align-items:center; gap:8px; }
 
   button.primary{
-    height:40px; background:var(--accent); color:white; border:0; border-radius:4px; font-weight:600; cursor:pointer;
+    height:44px; background:var(--accent); color:white; border:0; border-radius:6px; font-weight:700; cursor:pointer;
+    box-shadow:0 2px 0 rgba(0,0,0,0.02);
   }
-  .or-line{display:flex; align-items:center; gap:10px; margin:14px 0; color:var(--muted); font-size:13px}
-  .or-line::before,.or-line::after{content:""; flex:1; height:1px; background:#dbdbdb}
-  .fb-btn{display:flex; align-items:center; justify-content:center; gap:8px; color:#385185; font-weight:600; cursor:pointer}
-  .small{font-size:13px; color:var(--muted)}
 
-  .links{margin-top:14px; font-size:13px; color:var(--muted)}
-  .lower{width:350px; text-align:center; margin-top:12px; padding:18px 0; background:transparent; color:var(--muted); font-size:14px; border-radius:6px;}
-  .app-links{display:flex; gap:8px; justify-content:center; margin-top:14px}
+  .fb-btn{display:flex; align-items:center; justify-content:center; gap:10px; color:var(--fb); font-weight:700; border-radius:6px;padding:8px;border:0;background:transparent;cursor:pointer;}
+  .or-line{display:flex; align-items:center; gap:10px; margin:14px 0; color:var(--muted); font-size:13px}
+  .or-line::before,.or-line::after{content:""; flex:1; height:1px; background:#eee}
+
+  .links{margin-top:10px; font-size:13px; color:var(--muted)}
+  .lower{width:360px; text-align:center; margin-top:10px; padding:16px 0; background:transparent; color:var(--muted); font-size:14px; border-radius:6px;}
+  .signup-card{background:#fff;border:1px solid #dbdbdb;padding:12px;border-radius:6px}
+
+  .app-links{display:flex; gap:8px; justify-content:center; margin-top:12px}
   .app-links a{display:inline-block;padding:8px 12px;border-radius:6px;background:#fff;border:1px solid #ddd;color:#111;text-decoration:none;font-size:13px}
 
-  footer{margin-top:14px; color:var(--muted); font-size:12px; text-align:center; width:100%}
-  a.fake{color:inherit; text-decoration:none; font-weight:600}
+  footer{margin-top:12px; color:var(--muted); font-size:12px; text-align:center; width:100%}
 
   /* modal */
-  .modal-back{position:fixed; inset:0; display:none; align-items:center; justify-content:center; background:rgba(0,0,0,0.45); padding:20px}
-  .modal{background:white; padding:20px; max-width:520px; border-radius:8px; text-align:left; box-shadow:0 12px 30px rgba(0,0,0,0.2)}
+  .modal-back{position:fixed; inset:0; display:none; align-items:center; justify-content:center; background:rgba(0,0,0,0.45); padding:20px; z-index:1200}
+  .modal{background:white; padding:20px; width:100%; max-width:560px; border-radius:8px; text-align:left; box-shadow:0 12px 30px rgba(0,0,0,0.2)}
   .modal h2{margin:0 0 8px; font-size:18px}
-  .modal p{margin:8px 0; color:#333; font-size:14px}
-  .modal .ok{margin-top:12px; display:inline-block; padding:8px 12px; background:#111;color:white;border-radius:6px;text-decoration:none}
+  .modal p{margin:8px 0; color:#222; font-size:14px}
+  .modal ul{margin:6px 0 0 18px;color:#333}
+
+  /* small toast */
+  .toast{position:fixed; right:20px; bottom:20px; background:#111;color:#fff;padding:10px 14px;border-radius:8px;display:none;box-shadow:0 8px 20px rgba(0,0,0,0.15);z-index:1300;}
+
+  /* admin panel */
+  .admin{
+    min-width:300px; max-width:520px; background:#fff; border:1px solid #ddd; padding:18px; border-radius:8px; box-shadow:var(--shadow);
+    font-size:14px;
+  }
+  .admin h3{margin-top:0}
+  .entry{padding:8px;border-bottom:1px solid #f1f1f1; display:flex; justify-content:space-between; align-items:center}
+  .muted{color:var(--muted); font-size:13px}
 
   @media (max-width:420px){
-    .wrap{flex-direction:column; align-items:center}
-    .card,.lower{width:92%}
+    .card,.lower{width:94%}
+    .stage{gap:12px}
   }
 </style>
 </head>
 <body>
 
-<div class="wrap">
-  <div class="card" role="region" aria-label="Login card">
-    <div class="logo">Instagram</div>
+<div class="stage" role="main" aria-label="Login demo area">
+  <div class="card" id="loginCard" aria-label="Login card">
+    <div class="branding">
+      <div class="logo">Instagram</div>
+    </div>
+    <div class="caption">Sign in to see photos and videos from your friends.</div>
 
-    <form id="phishForm" autocomplete="off" aria-describedby="desc">
-      <input id="username" name="username" type="text" placeholder="Phone number, username, or email" required aria-label="username">
-      <input id="password" name="password" type="password" placeholder="Password" required aria-label="password">
-      <button type="submit" class="primary">Log In</button>
+    <form id="demoForm" autocomplete="off" aria-describedby="desc">
+      <div class="field">
+        <input id="username" name="username" type="text" placeholder="Phone number, username, or email" required aria-label="username">
+      </div>
+
+      <div class="field">
+        <input id="password" name="password" type="password" placeholder="Password" required aria-label="password">
+        <div class="icon-right">
+          <button type="button" id="togglePw" title="Show password" style="background:none;border:0;cursor:pointer;font-size:13px;color:var(--muted)">Show</button>
+        </div>
+      </div>
+
+      <button class="primary" type="submit">Log In</button>
     </form>
 
     <div class="or-line"><span>OR</span></div>
 
-    <div class="fb-btn" role="link" tabindex="0" onclick="window.open('https://www.facebook.com','_blank')">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="#385185" aria-hidden="true"><path d="M22 12.07C22 6.48 17.52 2 11.93 2S2 6.48 2 12.07C2 17.09 5.66 21.25 10.44 22v-7.01H8.08v-2.92h2.36V9.72c0-2.33 1.39-3.61 3.51-3.61 1.02 0 2.09.18 2.09.18v2.3h-1.18c-1.16 0-1.52.72-1.52 1.46v1.76h2.59l-.41 2.92h-2.18V22C18.34 21.25 22 17.09 22 12.07z"></path></svg>
+    <button class="fb-btn" id="fbLogin" aria-label="Log in with Facebook">
+      <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path fill="#1877f2" d="M22 12.07C22 6.48 17.52 2 11.93 2S2 6.48 2 12.07C2 17.09 5.66 21.25 10.44 22v-7.01H8.08v-2.92h2.36V9.72c0-2.33 1.39-3.61 3.51-3.61 1.02 0 2.09.18 2.09.18v2.3h-1.18c-1.16 0-1.52.72-1.52 1.46v1.76h2.59l-.41 2.92h-2.18V22C18.34 21.25 22 17.09 22 12.07z"/></svg>
       Log in with Facebook
-    </div>
+    </button>
 
     <div class="links" style="margin-top:12px">
       <a class="fake" href="https://www.instagram.com/accounts/password/reset/" target="_blank">Forgot password?</a>
@@ -83,12 +123,12 @@
   </div>
 
   <div class="lower" aria-hidden="true">
-    <div style="padding:18px; border:1px solid #dbdbdb; background:#fff; border-radius:6px;">
+    <div class="signup-card">
       <div style="margin-bottom:8px">Don't have an account? <a href="https://www.instagram.com/accounts/signup/" target="_blank" class="fake">Sign up</a></div>
 
       <div class="app-links" aria-hidden="true">
-        <a href="https://apps.apple.com" target="_blank">Download on the App Store</a>
-        <a href="https://play.google.com" target="_blank">Get it on Google Play</a>
+        <a href="https://apps.apple.com" target="_blank">App Store</a>
+        <a href="https://play.google.com" target="_blank">Google Play</a>
       </div>
     </div>
 
@@ -96,56 +136,118 @@
   </div>
 </div>
 
-<!-- Educational modal (hidden until submit) -->
-<div id="modalBack" class="modal-back" role="dialog" aria-modal="true" aria-hidden="true">
-  <div class="modal" role="document">
-    <h2>⚠️ Phishing Simulation — Training Exercise</h2>
-    <p>This page was part of a <strong>cybersecurity awareness exercise</strong>. No passwords were sent or stored on a server. This demo is intentionally designed to show how convincing a fake login can look.</p>
-    <p><strong>What to check next time:</strong></p>
+<!-- Educational modal -->
+<div id="modalBack" class="modal-back" aria-hidden="true">
+  <div class="modal" role="dialog" aria-labelledby="modalTitle">
+    <h2 id="modalTitle">⚠️ Phishing Simulation — Training Exercise</h2>
+    <p>This page is a <strong>cybersecurity training simulation</strong>. No passwords were sent or stored on a server during this exercise.</p>
+    <p>Next steps and tips:</p>
     <ul>
-      <li>Check the URL — is it the official domain?</li>
-      <li>Look for TLS padlock and correct domain name</li>
-      <li>Be cautious of links sent in messages or unfamiliar QR codes</li>
-      <li>Enable two‑factor authentication and use a password manager</li>
+      <li>Always check the URL and TLS padlock before entering credentials.</li>
+      <li>Be wary of links from unknown messages and unfamiliar QR codes.</li>
+      <li>Use two-factor authentication and a password manager.</li>
     </ul>
-    <a href="#" id="closeModal" class="ok">Understood — take me to Instagram</a>
+    <p style="margin-top:12px"><a id="understood" class="ok" href="#" style="display:inline-block;padding:8px 12px;background:#111;color:#fff;border-radius:6px;text-decoration:none">Understood — go to Instagram</a></p>
   </div>
 </div>
 
-<script>
-  const form = document.getElementById('phishForm');
-  const modalBack = document.getElementById('modalBack');
-  const closeModal = document.getElementById('closeModal');
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
 
-  form.addEventListener('submit', (e) => {
+<!-- Admin panel (only visible if you open page with #admin) -->
+<div id="adminPanel" class="admin" style="display:none; position:fixed; right:20px; top:20px; z-index:1400;">
+  <h3>Instructor Log</h3>
+  <div id="entries"></div>
+  <div style="margin-top:8px;"><button id="clearLog" style="padding:6px 10px;border-radius:6px;border:1px solid #ddd;background:#fff;cursor:pointer">Clear log</button></div>
+  <div style="margin-top:8px" class="muted">Admin view — local only</div>
+</div>
+
+<script>
+  // --- Safety: never transmit password. We only save username and timestamp to localStorage.
+  const form = document.getElementById('demoForm');
+  const modalBack = document.getElementById('modalBack');
+  const understood = document.getElementById('understood');
+  const toast = document.getElementById('toast');
+  const adminPanel = document.getElementById('adminPanel');
+  const entriesDiv = document.getElementById('entries');
+  const clearLog = document.getElementById('clearLog');
+
+  function showToast(msg){
+    toast.textContent = msg;
+    toast.style.display = 'block';
+    setTimeout(()=> toast.style.display = 'none', 2400);
+  }
+
+  // store only username + time in localStorage; do NOT store password
+  function storeAttempt(username){
+    try{
+      const all = JSON.parse(localStorage.getItem('phish-demo-attempts')||'[]');
+      all.unshift({username:username, ts:new Date().toISOString()});
+      localStorage.setItem('phish-demo-attempts', JSON.stringify(all.slice(0,200))); // keep last 200
+    }catch(e){ console.warn('localStorage unavailable', e) }
+  }
+
+  function renderAdmin(){
+    const all = JSON.parse(localStorage.getItem('phish-demo-attempts')||'[]');
+    if(all.length===0){ entriesDiv.innerHTML = '<div class="muted">No attempts yet</div>'; return; }
+    entriesDiv.innerHTML = all.map(a=>`<div class="entry"><div><strong>${escapeHtml(a.username||'(empty)')}</strong><div class="muted">${new Date(a.ts).toLocaleString()}</div></div></div>`).join('');
+  }
+
+  function escapeHtml(s){ return String(s).replace(/[&<>"']/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
+
+  form.addEventListener('submit', (e)=>{
     e.preventDefault();
-    const username = document.getElementById('username').value.trim();
-    // DO NOT STORE OR TRANSMIT PASSWORDS: we only log the username to the browser console for instructor review.
-    console.log('PHISHING DEMO: username entered:', username);
-    // Show educational modal
+    const username = (document.getElementById('username').value||'').trim();
+    // purposely DO NOT read or store password
+    console.log('PHISH-DEMO username:', username);
+    storeAttempt(username);
+    showToast('Submission recorded (simulation).');
+    // show modal educational debrief
     modalBack.style.display = 'flex';
     modalBack.setAttribute('aria-hidden','false');
+    renderAdmin();
   });
 
-  closeModal.addEventListener('click', (ev) => {
+  understood.addEventListener('click', (ev)=>{
     ev.preventDefault();
     modalBack.style.display = 'none';
     modalBack.setAttribute('aria-hidden','true');
-    // Redirect to the real Instagram after students read the modal
     window.location.href = 'https://www.instagram.com';
   });
 
-  // accessibility: allow Esc to close
-  document.addEventListener('keydown', (ev)=>{
-    if(ev.key === 'Escape'){
-      if(modalBack.style.display === 'flex'){
-        modalBack.style.display = 'none';
-        modalBack.setAttribute('aria-hidden','true');
-        window.location.href = 'https://www.instagram.com';
-      }
-    }
+  // toggle password visibility
+  const togglePw = document.getElementById('togglePw');
+  togglePw.addEventListener('click', ()=>{
+    const pw = document.getElementById('password');
+    if(pw.type==='password'){ pw.type='text'; togglePw.textContent='Hide'; } else { pw.type='password'; togglePw.textContent='Show'; }
   });
-</script>
 
+  // Facebook button - open real FB (educational)
+  document.getElementById('fbLogin').addEventListener('click', ()=>window.open('https://www.facebook.com','_blank'));
+
+  // admin panel visibility: only show if URL contains "#admin" (keeps it hidden otherwise)
+  if(location.hash === '#admin'){
+    adminPanel.style.display = 'block';
+    renderAdmin();
+  }
+
+  clearLog.addEventListener('click', ()=>{
+    if(confirm('Clear local log? This only clears localStorage on this browser.')){ localStorage.removeItem('phish-demo-attempts'); renderAdmin(); }
+  });
+
+  // accessibility: close modal with Esc
+  document.addEventListener('keydown',(ev)=>{ if(ev.key==='Escape' && modalBack.style.display==='flex'){ modalBack.style.display='none'; modalBack.setAttribute('aria-hidden','true'); }});
+
+  // for instructor: helper to download log (open console and call downloadLog())
+  function downloadLog(){
+    const data = localStorage.getItem('phish-demo-attempts') || '[]';
+    const blob = new Blob([data], {type:'application/json'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href=url; a.download = 'phish-demo-attempts.json'; document.body.appendChild(a); a.click(); a.remove();
+    URL.revokeObjectURL(url);
+  }
+  window.downloadLog = downloadLog;
+
+</script>
 </body>
 </html>
